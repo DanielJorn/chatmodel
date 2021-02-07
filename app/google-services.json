@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1076330364571",
+    "project_id": "chatmodel-9634b",
+    "storage_bucket": "chatmodel-9634b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076330364571:android:50826663c14296b63c503e",
+        "android_client_info": {
+          "package_name": "daniel.chatmodel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076330364571-34fc0eper8ctm48ka8u5netig4v8http.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "daniel.chatmodel",
+            "certificate_hash": "101fdb70f7587c62dedbfc925d7c345d10e21c48"
+          }
+        },
+        {
+          "client_id": "1076330364571-s65a1oufhlkmu5gv5ntvr796qta9bbp8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkDoI_1mLKHnP0NdLgeM7p3FNzOrwZCBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1076330364571-s65a1oufhlkmu5gv5ntvr796qta9bbp8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
