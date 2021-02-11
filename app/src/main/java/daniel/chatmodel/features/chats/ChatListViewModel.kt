@@ -42,7 +42,7 @@ class ChatListViewModel : ViewModel() {
     private fun onChatRemoved(chatPreview: ChatPreviewModel) {
         chatList.removeAll { it.id == chatPreview.id }
         mutableUpdateLiveData.value = mutableUpdateLiveData.value
-        something that will not even compile
+
     }
 
     private fun onChatModified(modifiedModel: ChatPreviewModel) {
