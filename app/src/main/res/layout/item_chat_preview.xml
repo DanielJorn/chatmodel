@@ -12,14 +12,15 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/chat_preview_chat_image"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:src="@mipmap/placeholder"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -35,6 +36,7 @@
                 android:id="@+id/chat_preview_message_preview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/Message"
                 tools:text="Some message"/>
 
         </LinearLayout>
