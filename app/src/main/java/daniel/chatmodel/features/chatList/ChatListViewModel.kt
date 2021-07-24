@@ -1,4 +1,4 @@
-package daniel.chatmodel.features.chats
+package daniel.chatmodel.features.chatList
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

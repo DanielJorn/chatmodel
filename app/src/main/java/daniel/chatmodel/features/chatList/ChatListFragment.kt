@@ -1,4 +1,4 @@
-package daniel.chatmodel.features.chats
+package daniel.chatmodel.features.chatList
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import daniel.chatmodel.R
 import kotlinx.android.synthetic.main.fragment_chat_list.*
 
 class ChatListFragment: Fragment(R.layout.fragment_chat_list){
-    private lateinit var adapter: ChatPreviewAdapter
+    private lateinit var adapter: ChatListAdapter
     private val viewModel: ChatListViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -17,7 +17,7 @@ class ChatListFragment: Fragment(R.layout.fragment_chat_list){
 
         viewModel.updateLiveData.observe(viewLifecycleOwner) { onChatListUpdated() }
 
-        adapter = ChatPreviewAdapter(viewModel.chatList)
+        adapter = ChatListAdapter(viewModel.chatList)
         viewModel.updateChatList()
         rv_chat_list.adapter=adapter
     }

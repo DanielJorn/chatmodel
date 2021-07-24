@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/signInFragment"
         android:name="daniel.chatmodel.features.login.SignInFragment"
-        android:label="SignInFragment"
+        android:label="Sign In"
         tools:layout="@layout/fragment_sign_in">
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"
@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="daniel.chatmodel.features.login.SignUpFragment"
-        android:label="SignUpFragment"
+        android:label="Sign Up"
         tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_signUpFragment_to_chatListFragment"
@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/chatListFragment"
-        android:name="daniel.chatmodel.features.chats.ChatListFragment"
-        android:label="ChatListFragment"
+        android:name="daniel.chatmodel.features.chatList.ChatListFragment"
+        android:label="ChatModel"
         tools:layout="@layout/fragment_chat_list"/>
 </navigation>
