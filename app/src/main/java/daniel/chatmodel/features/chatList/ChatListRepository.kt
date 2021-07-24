@@ -1,8 +1,6 @@
+/*
 package daniel.chatmodel.features.chatList
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
@@ -11,27 +9,20 @@ import com.google.firebase.ktx.Firebase
 import daniel.chatmodel.base.firestore.CHATS
 import daniel.chatmodel.base.firestore.handleUpdates
 import daniel.chatmodel.base.notificate
+import kotlinx.coroutines.flow.Flow
 
-private const val TAG = "ChatListViewModel"
-
-class ChatListViewModel : ViewModel() {
-    val chatList = ArrayList<ChatModel>()
-    private val mutableUpdateLiveData = MutableLiveData<Unit>()
-    val updateLiveData: LiveData<Unit> = mutableUpdateLiveData
-
-    private val errorLiveData = MutableLiveData<String>()
-    val error: LiveData<String> = errorLiveData
-
+class ChatListRepository {
+    val chatList = ArrayList<FirebaseChatModel>()
     private val database = Firebase.firestore
 
-    fun updateChatList() {
+    fun listenChatListUpdates() {
         database.collection(CHATS)
             .handleUpdates(::onChatUpdate, ::onChatUpdateFailed)
     }
 
     private fun onChatUpdate(snapshot: QuerySnapshot) {
         snapshot.documentChanges.forEach {
-            val chatPreview = it.document.toObject(ChatModel::class.java)
+            val chatPreview = it.document.toObject(FirebaseChatModel::class.java)
 
             when (it.type) {
                 DocumentChange.Type.ADDED -> onChatAdded(chatPreview)
@@ -43,23 +34,23 @@ class ChatListViewModel : ViewModel() {
 
     private fun onChatUpdateFailed(exception: FirebaseFirestoreException) = Unit
 
-    private fun onChatAdded(chatPreview: ChatModel) {
+    private fun onChatAdded(chatPreview: FirebaseChatModel) {
         chatList.add(chatPreview)
         mutableUpdateLiveData.notificate()
     }
 
-    private fun onChatModified(modifiedModel: ChatModel) {
+    private fun onChatModified(modifiedModel: FirebaseChatModel) {
         updateChat(modifiedModel)
         mutableUpdateLiveData.notificate()
     }
 
-    private fun updateChat(chatToUpdate: ChatModel) {
+    private fun updateChat(chatToUpdate: FirebaseChatModel) {
         val indexToUpdate = indexOf(chatToUpdate)
         if (indexToUpdate >= 0)
             chatList[indexToUpdate] = chatToUpdate
     }
 
-    private fun indexOf(chatToFind: ChatModel): Int {
+    private fun indexOf(chatToFind: FirebaseChatModel): Int {
         val nullPos = -1
         var neededIndex = nullPos
 
@@ -75,8 +66,9 @@ class ChatListViewModel : ViewModel() {
         return neededIndex
     }
 
-    private fun onChatRemoved(chatPreview: ChatModel) {
+    private fun onChatRemoved(chatPreview: FirebaseChatModel) {
         chatList.removeAll { it.id == chatPreview.id }
         mutableUpdateLiveData.notificate()
     }
-}
+
+}*/

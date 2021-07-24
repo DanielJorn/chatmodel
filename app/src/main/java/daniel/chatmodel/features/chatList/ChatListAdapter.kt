@@ -1,4 +1,4 @@
-package daniel.chatmodel.features.chats
+package daniel.chatmodel.features.chatList
 
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +16,8 @@ import daniel.chatmodel.base.firestore.MESSAGES
 import daniel.chatmodel.base.firestore.SENT
 import kotlinx.android.synthetic.main.item_chat_preview.view.*
 
-class ChatPreviewAdapter(private val chatList: ArrayList<FirebaseChatModel>) :
-    RecyclerView.Adapter<ChatPreviewAdapter.ChatPreviewViewHolder>() {
+class ChatListAdapter(private val chatList: ArrayList<ChatModel>) :
+    RecyclerView.Adapter<ChatListAdapter.ChatPreviewViewHolder>() {
 
     private val database = Firebase.firestore
 
@@ -44,7 +44,7 @@ class ChatPreviewAdapter(private val chatList: ArrayList<FirebaseChatModel>) :
                     return@addSnapshotListener
 
                 val lastMessageDocument = snapshot.documents[0]
-                val message = lastMessageDocument.toObject(Message::class.java)?.text
+                val message = lastMessageDocument.toObject(MessageModel::class.java)?.text
                 holder.messagePreview.text = message
             }
 

@@ -1,8 +1,8 @@
-package daniel.chatmodel.features.chats
+package daniel.chatmodel.features.chatList
 
 import com.google.firebase.firestore.DocumentId
 
-data class Message(
+data class MessageModel(
     @DocumentId val id: String = "",
     val text: String = ""
 )
