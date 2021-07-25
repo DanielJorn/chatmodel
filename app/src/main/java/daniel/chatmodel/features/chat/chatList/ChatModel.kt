@@ -1,4 +1,4 @@
-package daniel.chatmodel.features.chatList
+package daniel.chatmodel.features.chat.chatList
 
 import com.google.firebase.firestore.DocumentId
 

@@ -39,6 +39,6 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
     private fun goToMain() {
         Toast.makeText(activity, "Successfully created the account", Toast.LENGTH_LONG).show()
-        findNavController().navigate(R.id.action_signUpFragment_to_chatListFragment)
+        findNavController().navigate(R.id.action_signUpFragment_to_main_graph)
     }
 }

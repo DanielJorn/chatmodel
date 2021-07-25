@@ -1,50 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/light_white">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    >
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="chat"
+            type="daniel.chatmodel.features.chat.chatList.ChatModel" />
+    </data>
+
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/chat_preview_chat_image"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:src="@mipmap/placeholder"/>
+        android:layout_height="wrap_content"
+        android:background="@color/light_white"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:padding="10dp">
 
-            <TextView
-                android:id="@+id/chat_preview_chat_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="Some title"
-                style="@style/SmallTitle"
-                android:layout_marginBottom="10dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/chat_preview_chat_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                bind:chatImage="@{chat.chatImage}"
+                android:src="@mipmap/placeholder" />
 
-            <TextView
-                android:id="@+id/chat_preview_message_preview"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Message"
-                tools:text="Some message"/>
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/chat_preview_chat_title"
+                    style="@style/SmallTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@{chat.title}"
+                    tools:text="Chat title"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/Message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:visibility="gone"
+                        tools:text="Author:  " />
+
+                    <TextView
+                        android:id="@+id/chat_preview_message_preview"
+                        style="@style/Message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Some message" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"/>
-</LinearLayout>
+</layout>

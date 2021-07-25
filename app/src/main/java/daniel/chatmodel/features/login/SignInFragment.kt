@@ -58,6 +58,6 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in){
 
     private fun goToMain() {
         Toast.makeText(activity, "Successfully signed in", Toast.LENGTH_LONG).show()
-        findNavController().navigate(R.id.action_signInFragment_to_chatListFragment)
+        findNavController().navigate(R.id.action_signInFragment_to_main_graph)
     }
  }
