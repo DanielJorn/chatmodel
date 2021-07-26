@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import daniel.chatmodel.databinding.ItemChatPreviewBinding
-import kotlinx.android.synthetic.main.item_chat_preview.view.*
+import daniel.chatmodel.features.chat.ChatModel
 
-class ChatListAdapter(private val chatList: ArrayList<ChatModel>) :
-    RecyclerView.Adapter<ChatListAdapter.ChatPreviewViewHolder>() {
-
+class ChatListAdapter : ListAdapter<ChatModel, ChatListAdapter.ChatPreviewViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatPreviewViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -21,24 +21,30 @@ class ChatListAdapter(private val chatList: ArrayList<ChatModel>) :
         return ChatPreviewViewHolder(binding.root)
     }
 
-    override fun getItemCount() = chatList.size
-
     override fun onBindViewHolder(holder: ChatPreviewViewHolder, position: Int) {
-        val currentChat = chatList[position]
+        val currentChat = currentList[position]
         holder.binding?.chat = currentChat
     }
 
-
-    class ChatPreviewViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding: ItemChatPreviewBinding? = DataBindingUtil.bind(view)
+    class ChatPreviewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val binding: ItemChatPreviewBinding? = DataBindingUtil.bind(itemView)
     }
 
     companion object {
-
         @BindingAdapter("bind:chatImage")
         @JvmStatic
         fun loadImage(imageView: ImageView, v: String?) {
             Picasso.get().load(v).into(imageView)
         }
+    }
+}
+
+private class DiffCallback : DiffUtil.ItemCallback<ChatModel>() {
+    override fun areItemsTheSame(oldItem: ChatModel, newItem: ChatModel): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: ChatModel, newItem: ChatModel): Boolean {
+        return oldItem == newItem
     }
 }

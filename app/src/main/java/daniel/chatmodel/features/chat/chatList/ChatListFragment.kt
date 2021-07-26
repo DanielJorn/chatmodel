@@ -32,7 +32,8 @@ class ChatListFragment: Fragment(){
 
         viewModel.updateLiveData.observe(viewLifecycleOwner) { onChatListUpdated() }
 
-        adapter = ChatListAdapter(viewModel.chatList)
+        adapter = ChatListAdapter()
+        adapter.submitList(viewModel.chatList)
         viewModel.updateChatList()
         rv_chat_list.adapter=adapter
     }

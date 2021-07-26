@@ -8,7 +8,17 @@
     <fragment
         android:id="@+id/chatListFragment"
         android:name="daniel.chatmodel.features.chat.chatList.ChatListFragment"
-        android:label="ChatModel"
-        tools:layout="@layout/fragment_chat_list"/>
+        android:label="chatListFragment"
+        tools:layout="@layout/fragment_chat_list">
+        <action
+            android:id="@+id/action_chatListFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="daniel.chatmodel.features.chat.chatRoom.ChatRoomFragment"
+        android:label="chatRoomFragment"
+        tools:layout="@layout/fragment_chat_room"/>
 
 </navigation>

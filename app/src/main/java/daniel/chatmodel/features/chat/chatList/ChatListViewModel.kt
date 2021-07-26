@@ -11,6 +11,7 @@ import com.google.firebase.ktx.Firebase
 import daniel.chatmodel.base.firestore.CHATS
 import daniel.chatmodel.base.firestore.handleUpdates
 import daniel.chatmodel.base.notificate
+import daniel.chatmodel.features.chat.ChatModel
 
 private const val TAG = "ChatListViewModel"
 
