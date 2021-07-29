@@ -49,7 +49,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in){
     private fun onSignInClicked() {
         val email = et_sign_in_enter_email.text.toString()
         val password = et_sign_in_enter_password.text.toString()
-        viewModel.signIn(email, password)
+        viewModel.signIn("aaaa@fd.com", "12345678")
     }
 
     private fun goToSignUp() {
