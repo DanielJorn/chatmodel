@@ -8,8 +8,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_chat_preview"
-        android:layout_above="@id/chatroom_message"/>
+        android:layout_above="@id/chatroom_message"
+        tools:listitem="@layout/item_chat_preview" />
 
     <RelativeLayout
         android:id="@+id/chatroom_message"
