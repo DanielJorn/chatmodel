@@ -3,12 +3,13 @@ package daniel.chatmodel
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +27,15 @@ class MainActivity : AppCompatActivity() {
         nav_view.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfig)
 
+        if (userNotSignedIn()){
+            navController.setGraph(R.navigation.login_graph)
+        }
+
         supportFragmentManager.beginTransaction().replace(R.id.main_container, host).setPrimaryNavigationFragment(host).commit()
+    }
+
+    private fun userNotSignedIn(): Boolean {
+        return Firebase.auth.uid == null
     }
 
     override fun onSupportNavigateUp(): Boolean {
