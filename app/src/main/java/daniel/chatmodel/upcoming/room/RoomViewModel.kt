@@ -7,22 +7,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import daniel.chatmodel.ChatApplication
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import java.util.*
+import kotlinx.coroutines.flow.collect
 
 private const val TAG = "RoomViewModel"
 
-class RoomViewModel: ViewModel() {
+class RoomViewModel : ViewModel() {
     private val roomDB = ChatApplication.instance.database
     private val userDao = roomDB.userDao()
 
-    val userName : MutableLiveData<String> = MutableLiveData("")
-    val userSurname : MutableLiveData<String> = MutableLiveData("")
+    val userName: MutableLiveData<String> = MutableLiveData("")
+    val userSurname: MutableLiveData<String> = MutableLiveData("")
     private val _userList: MutableLiveData<List<User>> = MutableLiveData(listOf())
     val userList: LiveData<List<User>> = _userList
 
-    fun onConfirmClicked(){
+    fun onConfirmClicked() {
         viewModelScope.launch {
             val id = UUID.randomUUID().toString()
             val user = User(id, userName.value!!, userSurname.value!!)
@@ -33,7 +35,9 @@ class RoomViewModel: ViewModel() {
 
     fun loadUserList() {
         viewModelScope.launch {
-            _userList.value = userDao.getAll()
+            userDao.getAll().collect {
+                _userList.value = it
+            }
         }
     }
 }

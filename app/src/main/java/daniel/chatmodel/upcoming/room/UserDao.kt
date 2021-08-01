@@ -1,11 +1,12 @@
 package daniel.chatmodel.upcoming.room
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user")
-    suspend fun getAll(): List<User>
+    fun getAll(): Flow<List<User>>
 
     @Query("SELECT * FROM user WHERE id = :id")
     suspend fun getById(id: String): User
