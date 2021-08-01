@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="viewModel"
             type="daniel.chatmodel.upcoming.room.RoomViewModel" />
     </data>
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -25,37 +28,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@={viewModel.userName}"
-                android:hint="name"/>
+                android:hint="name"
+                android:text="@={viewModel.userName}" />
 
             <EditText
                 android:id="@+id/room_addUser_surname_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@={viewModel.userSurname}"
-                android:hint="surname"/>
+                android:hint="surname"
+                android:text="@={viewModel.userSurname}" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/room_addUser_confirmBtn"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:padding="5dp"
-                android:onClick="@{() -> viewModel.onConfirmClicked()}"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:onClick="@{() -> viewModel.onConfirmClicked()}"
+                android:padding="5dp"
                 android:src="@color/black" />
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="user list"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:background="@drawable/rounded_button"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/room_users_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/room_addUser_container"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_room_user" />
 
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>
