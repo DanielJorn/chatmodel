@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import daniel.chatmodel.databinding.ItemRoomUserBinding
 
-class RoomUserAdapter : ListAdapter<User, RoomUserAdapter.ItemViewHolder>(DiffCallback())  {
+class RoomUserAdapter(list: List<User>) : ListAdapter<User, RoomUserAdapter.ItemViewHolder>(DiffCallback())  {
+
+    init {
+        submitList(list)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder{
         val inflater = LayoutInflater.from(parent.context)

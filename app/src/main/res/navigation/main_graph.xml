@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_chatListFragment_to_chatRoomFragment"
             app:destination="@id/chatRoomFragment" />
+        <action
+            android:id="@+id/action_chatListFragment_to_roomFragment"
+            app:destination="@id/roomFragment" />
     </fragment>
 
     <fragment
@@ -20,5 +23,11 @@
         android:name="daniel.chatmodel.features.chat.chatRoom.ChatRoomFragment"
         android:label="chatRoomFragment"
         tools:layout="@layout/fragment_chat_room"/>
+
+    <fragment
+        android:id="@+id/roomFragment"
+        android:name="daniel.chatmodel.upcoming.room.RoomFragment"
+        android:label="RoomFragment"
+        tools:layout="@layout/fragment_room"/>
 
 </navigation>
