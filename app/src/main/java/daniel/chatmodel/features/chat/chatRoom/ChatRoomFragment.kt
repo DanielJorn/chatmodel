@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import daniel.chatmodel.R
 import daniel.chatmodel.databinding.FragmentChatListBinding
 
+//todo empty for now
 class ChatRoomFragment : Fragment(){
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,6 +21,4 @@ class ChatRoomFragment : Fragment(){
         )
         return binding.root
     }
-
-
 }

@@ -21,12 +21,17 @@ class RoomViewModel : ViewModel() {
 
     val userName: MutableLiveData<String> = MutableLiveData("")
     val userSurname: MutableLiveData<String> = MutableLiveData("")
+
+    // todo I use userList variable to hide MutableLiveData _userList and present it as LiveData (not mutable)
+    // is there better way of doing smthng like this?
     private val _userList: MutableLiveData<List<User>> = MutableLiveData(listOf())
     val userList: LiveData<List<User>> = _userList
 
     fun onConfirmClicked() {
         viewModelScope.launch {
             val id = UUID.randomUUID().toString()
+
+            //todo yep no check for validity of input fields
             val user = User(id, userName.value!!, userSurname.value!!)
 
             userDao.insert(user)

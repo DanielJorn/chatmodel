@@ -15,6 +15,8 @@ import daniel.chatmodel.features.chat.ChatModel
 
 private const val TAG = "ChatListViewModel"
 
+//todo better move all the database stuff outta here to repository class or something
+// todo class itself is clunky but I did no research
 class ChatListViewModel : ViewModel() {
     val chatList = ArrayList<ChatModel>()
     private val mutableUpdateLiveData = MutableLiveData<Unit>()

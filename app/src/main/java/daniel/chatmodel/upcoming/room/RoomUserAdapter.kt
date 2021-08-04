@@ -12,6 +12,9 @@ import daniel.chatmodel.databinding.ItemRoomUserBinding
 class RoomUserAdapter(list: List<User>) : ListAdapter<User, RoomUserAdapter.ItemViewHolder>(DiffCallback())  {
 
     init {
+        // todo is it okay to do anything like this inside of init?
+        // any performance issues? no?
+        // I did it because it's kinda convenient for user to pass the initial list of items for the first time
         submitList(list)
     }
 

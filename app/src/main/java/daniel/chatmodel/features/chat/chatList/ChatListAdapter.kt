@@ -30,6 +30,7 @@ class ChatListAdapter : ListAdapter<ChatModel, ChatListAdapter.ChatPreviewViewHo
         val binding: ItemChatPreviewBinding? = DataBindingUtil.bind(itemView)
     }
 
+    // todo maybe isn't okay but I didn't research
     companion object {
         @BindingAdapter("bind:chatImage")
         @JvmStatic

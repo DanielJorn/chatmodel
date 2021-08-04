@@ -39,6 +39,7 @@ class ChatListFragment: Fragment(){
     }
 
     private fun onChatListUpdated() {
+        // todo better use submit list
         adapter.notifyDataSetChanged()
     }
 }

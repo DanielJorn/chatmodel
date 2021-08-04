@@ -32,6 +32,10 @@ class RoomFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         room_users_recyclerView.adapter = adapter
+
+        // todo isn't it better to make view model call load user list in its init method?
+        // in such a way, user won't have to know view model's implementation details
+        // right now, user must know that calling loadUserList triggers userList LiveData
         viewModel.loadUserList()
         viewModel.userList.observe(viewLifecycleOwner) {
             adapter.submitList(it)

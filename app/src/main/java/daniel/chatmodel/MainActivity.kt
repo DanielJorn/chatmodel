@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity() {
         nav_view.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfig)
 
+        // should ask about it.
+        // todo what is the best way to make the login screen?
+        // todo and what's the best way of mixing bottom nav bar and drawer layout together?
         if (userNotSignedIn()){
             navController.setGraph(R.navigation.login_graph)
         }
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun userNotSignedIn(): Boolean {
+        //todo should be taken away from activity to some kinda ViewModel or something
         return Firebase.auth.uid == null
     }
 

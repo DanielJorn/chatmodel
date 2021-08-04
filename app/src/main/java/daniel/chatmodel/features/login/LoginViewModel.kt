@@ -9,6 +9,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import daniel.chatmodel.features.login.LoginResult
 
+//todo I know this login package is quite strange
 class LoginViewModel: ViewModel() {
     private val auth = Firebase.auth
 

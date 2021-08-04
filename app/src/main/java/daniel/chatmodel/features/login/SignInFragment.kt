@@ -51,6 +51,8 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in){
     private fun onSignInClicked() {
         val email = et_sign_in_enter_email.text.toString()
         val password = et_sign_in_enter_password.text.toString()
+
+        //todo I intentionally left this code to speed up signing in. It signs in the existing account
         viewModel.signIn("aaaa@fd.com", "12345678")
     }
 
@@ -58,6 +60,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in){
         findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
     }
 
+    // todo almost the same method in sign in and sign up. Bad?
     private fun goToMain() {
         Toast.makeText(activity, "Successfully signed in", Toast.LENGTH_LONG).show()
         findNavController().navigate(R.id.action_signInFragment_to_main_graph)
