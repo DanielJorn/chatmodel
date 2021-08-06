@@ -4,7 +4,6 @@ import android.util.Log
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import daniel.chatmodel.base.Failure
 import daniel.chatmodel.base.State
@@ -24,7 +23,7 @@ class ChatListRepository {
 
     fun loadChatList(): Flow<State<List<ChatPreviewModel>>> {
         return callbackFlow {
-/*            val listener = db.collection(CHATS)
+            val listener = db.collection(CHATS)
                 .addSnapshotListener { snapshot, error ->
                     if (error != null){
                         trySend(Failure(error))
@@ -40,19 +39,19 @@ class ChatListRepository {
                     trySend(Success(uiChatList))
                 }
 
-            listenerList.add(listener)*/
+            listenerList.add(listener)
 
             awaitClose {
-/*
                 listener.remove()
-*/
                 Log.d(TAG, "loadChatList: removed chat listener")
             }
         }
     }
 
     fun onCleared(){
-
+        listenerList.forEach {
+            it.remove()
+        }
     }
 }
 
