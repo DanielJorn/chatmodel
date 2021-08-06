@@ -33,14 +33,6 @@ class ChatListAdapter
     class ChatPreviewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding: ItemChatPreviewBinding? = DataBindingUtil.bind(itemView)
     }
-
-    companion object {
-        @BindingAdapter("bind:chatImage")
-        @JvmStatic
-        fun loadImage(imageView: ImageView, v: String?) {
-            Picasso.get().load(v).into(imageView)
-        }
-    }
 }
 
 private class DiffCallback : DiffUtil.ItemCallback<ChatPreviewModel>() {

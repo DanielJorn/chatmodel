@@ -10,6 +10,7 @@ import daniel.chatmodel.base.Loading
 import daniel.chatmodel.base.State
 import daniel.chatmodel.base.Success
 import daniel.chatmodel.base.firestore.CHATS
+import daniel.chatmodel.base.firestore.handleUpdates
 import daniel.chatmodel.features.chat.ChatModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -18,43 +19,49 @@ import kotlinx.coroutines.flow.callbackFlow
 private const val TAG = "ChatListRepository"
 
 class ChatListRepository {
-    private val db = Firebase.firestore
-    private val auth = Firebase.auth
-    private val listenerList = arrayListOf<ListenerRegistration>()
+    private val chatMap : MutableMap<String, ChatModel> = mutableMapOf()
+    private val database = Firebase.firestore
+    private var onUpdate: () -> Unit = { }
 
-    fun loadChatList(): Flow<State<List<ChatPreviewModel>>> {
-        return callbackFlow {
-            trySend(Loading)
+    fun loadChatList(): Flow<State<List<ChatModel>>> = callbackFlow {
+        onUpdate = { this.trySend(Success(chatMap.values.toList())) }
+        val listener = database.collection(CHATS)
+            .handleUpdates(::onChatUpdate, ::onChatUpdateFailed)
 
-            val listener = db.collection(CHATS)
-                .addSnapshotListener { snapshot, error ->
-                    if (error != null){
-                        trySend(Failure(error))
-                        return@addSnapshotListener
-                    }
-                    if (snapshot == null){
-                        // ???
-                        return@addSnapshotListener
-                    }
-                    val dbChatList = snapshot.toObjects(ChatModel::class.java)
-                    val uiChatList = dbChatList.map { ChatPreviewModel(it.id, it.title) }
+        awaitClose {
+            listener.remove()
+        }
+    }
 
-                    trySend(Success(uiChatList))
-                }
+    private fun onChatUpdate(snapshot: QuerySnapshot) {
+        snapshot.documentChanges.forEach {
+            val chatPreview = it.document.toObject(ChatModel::class.java)
 
-            listenerList.add(listener)
-
-            awaitClose {
-                listener.remove()
-                Log.d(TAG, "loadChatList: removed chat listener")
+            when (it.type) {
+                DocumentChange.Type.ADDED -> onChatAdded(chatPreview)
+                DocumentChange.Type.MODIFIED -> onChatModified(chatPreview)
+                DocumentChange.Type.REMOVED -> onChatRemoved(chatPreview)
             }
         }
     }
 
-    fun onCleared(){
-        listenerList.forEach {
-            it.remove()
-        }
+
+    private fun onChatAdded(chatPreview: ChatModel) {
+        chatMap[chatPreview.id] = chatPreview
+        onUpdate()
     }
+
+    private fun onChatModified(modifiedModel: ChatModel) {
+        chatMap[modifiedModel.id] = modifiedModel
+        onUpdate()
+    }
+
+    private fun onChatRemoved(chatPreview: ChatModel) {
+        chatMap.remove(chatPreview.id)
+        onUpdate()
+    }
+
+    private fun onChatUpdateFailed(exception: FirebaseFirestoreException) = Unit
+
 }
 

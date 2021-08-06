@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import daniel.chatmodel.base.State
 import daniel.chatmodel.base.Success
 import daniel.chatmodel.base.firestore.CHATS
+import daniel.chatmodel.features.chat.ChatModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -28,7 +29,12 @@ class ChatListViewModel : ViewModel() {
     private fun loadChatList() {
         viewModelScope.launch {
             chatListRepository.loadChatList().collect {
-                _chatList.value = it
+                when(it){
+                    is Success -> {
+                        val mapped = it.data.map { chat -> ChatPreviewModel(chat.id, chat.title) }
+                        _chatList.value = Success(mapped)
+                    }
+                }
             }
         }
     }
