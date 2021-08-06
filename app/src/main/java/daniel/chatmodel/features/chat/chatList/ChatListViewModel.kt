@@ -28,16 +28,9 @@ class ChatListViewModel : ViewModel() {
     private fun loadChatList() {
         viewModelScope.launch {
             chatListRepository.loadChatList().collect {
-                when (it) {
-                    is Success -> handleNewChatList(it.data)
-                    else -> Log.d(TAG, "loadChatList: lazy")
-                }
+                _chatList.value = it
             }
         }
-    }
-
-    private fun handleNewChatList(list: List<ChatPreviewModel>) {
-        _chatList.value = Success(list)
     }
 
     override fun onCleared() {

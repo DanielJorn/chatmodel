@@ -6,6 +6,7 @@ import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import daniel.chatmodel.base.Failure
+import daniel.chatmodel.base.Loading
 import daniel.chatmodel.base.State
 import daniel.chatmodel.base.Success
 import daniel.chatmodel.base.firestore.CHATS
@@ -23,6 +24,8 @@ class ChatListRepository {
 
     fun loadChatList(): Flow<State<List<ChatPreviewModel>>> {
         return callbackFlow {
+            trySend(Loading)
+
             val listener = db.collection(CHATS)
                 .addSnapshotListener { snapshot, error ->
                     if (error != null){
