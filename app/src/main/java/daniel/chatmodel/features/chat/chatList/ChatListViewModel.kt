@@ -29,11 +29,7 @@ class ChatListViewModel : ViewModel() {
     private fun loadChatList() {
         viewModelScope.launch {
             chatListRepository.loadChatList().collect {
-                when(it){
-                    is Success -> {
-                        _chatList.value = Success(it.data)
-                    }
-                }
+                _chatList.value = it
             }
         }
     }
