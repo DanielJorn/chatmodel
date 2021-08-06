@@ -1,74 +1,58 @@
-/*
 package daniel.chatmodel.features.chat.chatList
 
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
+import android.util.Log
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
+import daniel.chatmodel.base.Failure
+import daniel.chatmodel.base.State
+import daniel.chatmodel.base.Success
 import daniel.chatmodel.base.firestore.CHATS
-import daniel.chatmodel.base.firestore.handleUpdates
-import daniel.chatmodel.base.notificate
+import daniel.chatmodel.features.chat.ChatModel
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+
+private const val TAG = "ChatListRepository"
 
 class ChatListRepository {
-    val chatList = ArrayList<FirebaseChatModel>()
-    private val database = Firebase.firestore
+    private val db = Firebase.firestore
+    private val auth = Firebase.auth
+    private val listenerList = arrayListOf<ListenerRegistration>()
 
-    fun listenChatListUpdates() {
-        database.collection(CHATS)
-            .handleUpdates(::onChatUpdate, ::onChatUpdateFailed)
-    }
+    fun loadChatList(): Flow<State<List<ChatPreviewModel>>> {
+        return callbackFlow {
+/*            val listener = db.collection(CHATS)
+                .addSnapshotListener { snapshot, error ->
+                    if (error != null){
+                        trySend(Failure(error))
+                        return@addSnapshotListener
+                    }
+                    if (snapshot == null){
+                        // ???
+                        return@addSnapshotListener
+                    }
+                    val dbChatList = snapshot.toObjects(ChatModel::class.java)
+                    val uiChatList = dbChatList.map { ChatPreviewModel(it.id, it.title) }
 
-    private fun onChatUpdate(snapshot: QuerySnapshot) {
-        snapshot.documentChanges.forEach {
-            val chatPreview = it.document.toObject(FirebaseChatModel::class.java)
+                    trySend(Success(uiChatList))
+                }
 
-            when (it.type) {
-                DocumentChange.Type.ADDED -> onChatAdded(chatPreview)
-                DocumentChange.Type.MODIFIED -> onChatModified(chatPreview)
-                DocumentChange.Type.REMOVED -> onChatRemoved(chatPreview)
+            listenerList.add(listener)*/
+
+            awaitClose {
+/*
+                listener.remove()
+*/
+                Log.d(TAG, "loadChatList: removed chat listener")
             }
         }
     }
 
-    private fun onChatUpdateFailed(exception: FirebaseFirestoreException) = Unit
+    fun onCleared(){
 
-    private fun onChatAdded(chatPreview: FirebaseChatModel) {
-        chatList.add(chatPreview)
-        mutableUpdateLiveData.notificate()
     }
+}
 
-    private fun onChatModified(modifiedModel: FirebaseChatModel) {
-        updateChat(modifiedModel)
-        mutableUpdateLiveData.notificate()
-    }
-
-    private fun updateChat(chatToUpdate: FirebaseChatModel) {
-        val indexToUpdate = indexOf(chatToUpdate)
-        if (indexToUpdate >= 0)
-            chatList[indexToUpdate] = chatToUpdate
-    }
-
-    private fun indexOf(chatToFind: FirebaseChatModel): Int {
-        val nullPos = -1
-        var neededIndex = nullPos
-
-        chatList.forEachIndexed { currInd, currChatModel ->
-            if (currChatModel.id == chatToFind.id)
-                neededIndex = currInd
-
-            if (neededIndex != nullPos) {
-                return neededIndex
-            }
-        }
-
-        return neededIndex
-    }
-
-    private fun onChatRemoved(chatPreview: FirebaseChatModel) {
-        chatList.removeAll { it.id == chatPreview.id }
-        mutableUpdateLiveData.notificate()
-    }
-
-}*/

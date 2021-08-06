@@ -7,7 +7,7 @@
 
         <variable
             name="chat"
-            type="daniel.chatmodel.features.chat.ChatModel" />
+            type="daniel.chatmodel.features.chat.chatList.ChatPreviewModel" />
     </data>
 
 
@@ -28,8 +28,7 @@
                 android:id="@+id/chat_preview_chat_image"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:src="@mipmap/placeholder"
-                bind:chatImage="@{chat.chatImage}" />
+                android:src="@mipmap/placeholder" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="@{chat.title}"
+                    android:text="@{chat.chatTitle}"
                     tools:text="Chat title" />
 
                 <LinearLayout

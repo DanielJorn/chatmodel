@@ -1,85 +1,46 @@
 package daniel.chatmodel.features.chat.chatList
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import daniel.chatmodel.base.State
+import daniel.chatmodel.base.Success
 import daniel.chatmodel.base.firestore.CHATS
-import daniel.chatmodel.base.firestore.handleUpdates
-import daniel.chatmodel.base.notificate
-import daniel.chatmodel.features.chat.ChatModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 private const val TAG = "ChatListViewModel"
 
-//todo better move all the database stuff outta here to repository class or something
-// todo class itself is clunky but I did no research
 class ChatListViewModel : ViewModel() {
-    val chatList = ArrayList<ChatModel>()
-    private val mutableUpdateLiveData = MutableLiveData<Unit>()
-    val updateLiveData: LiveData<Unit> = mutableUpdateLiveData
+    private val _chatList = MutableLiveData<State<List<ChatPreviewModel>>>()
+    val chatList: LiveData<State<List<ChatPreviewModel>>> = _chatList
 
-    private val errorLiveData = MutableLiveData<String>()
-    val error: LiveData<String> = errorLiveData
+    private val chatListRepository = ChatListRepository()
 
-    private val database = Firebase.firestore
-
-    fun updateChatList() {
-        database.collection(CHATS)
-            .handleUpdates(::onChatUpdate, ::onChatUpdateFailed)
+    init {
+        loadChatList()
     }
 
-    private fun onChatUpdate(snapshot: QuerySnapshot) {
-        snapshot.documentChanges.forEach {
-            val chatPreview = it.document.toObject(ChatModel::class.java)
-
-            when (it.type) {
-                DocumentChange.Type.ADDED -> onChatAdded(chatPreview)
-                DocumentChange.Type.MODIFIED -> onChatModified(chatPreview)
-                DocumentChange.Type.REMOVED -> onChatRemoved(chatPreview)
+    private fun loadChatList() {
+        viewModelScope.launch {
+            chatListRepository.loadChatList().collect {
+                when (it) {
+                    is Success -> handleNewChatList(it.data)
+                    else -> Log.d(TAG, "loadChatList: lazy")
+                }
             }
         }
     }
 
-    private fun onChatUpdateFailed(exception: FirebaseFirestoreException) = Unit
-
-    private fun onChatAdded(chatPreview: ChatModel) {
-        chatList.add(chatPreview)
-        mutableUpdateLiveData.notificate()
+    private fun handleNewChatList(list: List<ChatPreviewModel>) {
+        _chatList.value = Success(list)
     }
 
-    private fun onChatModified(modifiedModel: ChatModel) {
-        updateChat(modifiedModel)
-        mutableUpdateLiveData.notificate()
-    }
-
-    private fun updateChat(chatToUpdate: ChatModel) {
-        val indexToUpdate = indexOf(chatToUpdate)
-        if (indexToUpdate >= 0)
-            chatList[indexToUpdate] = chatToUpdate
-    }
-
-    private fun indexOf(chatToFind: ChatModel): Int {
-        val nullPos = -1
-        var neededIndex = nullPos
-
-        chatList.forEachIndexed { currInd, currChatModel ->
-            if (currChatModel.id == chatToFind.id)
-                neededIndex = currInd
-
-            if (neededIndex != nullPos) {
-                return neededIndex
-            }
-        }
-
-        return neededIndex
-    }
-
-    private fun onChatRemoved(chatPreview: ChatModel) {
-        chatList.removeAll { it.id == chatPreview.id }
-        mutableUpdateLiveData.notificate()
+    override fun onCleared() {
+        //todo clear repository
     }
 }

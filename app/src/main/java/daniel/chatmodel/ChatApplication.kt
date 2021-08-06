@@ -2,6 +2,7 @@ package daniel.chatmodel
 
 import android.app.Application
 import androidx.room.Room
+import com.google.firebase.FirebaseApp
 import daniel.chatmodel.upcoming.room.AppDatabase
 
 class ChatApplication : Application(){
@@ -16,6 +17,7 @@ class ChatApplication : Application(){
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseApp.initializeApp(this)
         instance = this
         database = Room.databaseBuilder(this, AppDatabase::class.java, "database")
             .build()
