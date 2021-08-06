@@ -31,8 +31,7 @@ class ChatListViewModel : ViewModel() {
             chatListRepository.loadChatList().collect {
                 when(it){
                     is Success -> {
-                        val mapped = it.data.map { chat -> ChatPreviewModel(chat.id, chat.title) }
-                        _chatList.value = Success(mapped)
+                        _chatList.value = Success(it.data)
                     }
                 }
             }

@@ -63,6 +63,7 @@
                         style="@style/Message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@{chat.lastMessageText}"
                         tools:text="Some message" />
 
                 </LinearLayout>
