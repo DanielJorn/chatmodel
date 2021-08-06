@@ -10,10 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import daniel.chatmodel.R
 import daniel.chatmodel.databinding.FragmentChatListBinding
+import daniel.chatmodel.features.chat.ChatModel
 import kotlinx.android.synthetic.main.fragment_chat_list.*
 
-class ChatListFragment: Fragment(){
-    private lateinit var adapter: ChatListAdapter
+class ChatListFragment : Fragment() {
+    private val adapter: ChatListAdapter by lazy { ChatListAdapter() }
     private val viewModel: ChatListViewModel by viewModels()
 
     override fun onCreateView(
@@ -30,16 +31,13 @@ class ChatListFragment: Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.updateLiveData.observe(viewLifecycleOwner) { onChatListUpdated() }
+        viewModel.chatList.observe(viewLifecycleOwner) { onChatListUpdated(it) }
 
-        adapter = ChatListAdapter()
-        adapter.submitList(viewModel.chatList)
         viewModel.updateChatList()
-        rv_chat_list.adapter=adapter
+        rv_chat_list.adapter = adapter
     }
 
-    private fun onChatListUpdated() {
-        // todo better use submit list
-        adapter.notifyDataSetChanged()
+    private fun onChatListUpdated(list: List<ChatModel>) {
+        adapter.submitList(list)
     }
 }

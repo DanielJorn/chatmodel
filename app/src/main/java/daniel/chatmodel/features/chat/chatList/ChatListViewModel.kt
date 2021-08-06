@@ -18,9 +18,10 @@ private const val TAG = "ChatListViewModel"
 //todo better move all the database stuff outta here to repository class or something
 // todo class itself is clunky but I did no research
 class ChatListViewModel : ViewModel() {
-    val chatList = ArrayList<ChatModel>()
-    private val mutableUpdateLiveData = MutableLiveData<Unit>()
-    val updateLiveData: LiveData<Unit> = mutableUpdateLiveData
+    private val chatMap : MutableMap<String, ChatModel> = mutableMapOf()
+
+    private val _chatList = MutableLiveData<List<ChatModel>>()
+    val chatList: LiveData<List<ChatModel>> = _chatList
 
     private val errorLiveData = MutableLiveData<String>()
     val error: LiveData<String> = errorLiveData
@@ -47,39 +48,17 @@ class ChatListViewModel : ViewModel() {
     private fun onChatUpdateFailed(exception: FirebaseFirestoreException) = Unit
 
     private fun onChatAdded(chatPreview: ChatModel) {
-        chatList.add(chatPreview)
-        mutableUpdateLiveData.notificate()
+        chatMap[chatPreview.id] = chatPreview
+        _chatList.value = chatMap.values.toList()
     }
 
     private fun onChatModified(modifiedModel: ChatModel) {
-        updateChat(modifiedModel)
-        mutableUpdateLiveData.notificate()
-    }
-
-    private fun updateChat(chatToUpdate: ChatModel) {
-        val indexToUpdate = indexOf(chatToUpdate)
-        if (indexToUpdate >= 0)
-            chatList[indexToUpdate] = chatToUpdate
-    }
-
-    private fun indexOf(chatToFind: ChatModel): Int {
-        val nullPos = -1
-        var neededIndex = nullPos
-
-        chatList.forEachIndexed { currInd, currChatModel ->
-            if (currChatModel.id == chatToFind.id)
-                neededIndex = currInd
-
-            if (neededIndex != nullPos) {
-                return neededIndex
-            }
-        }
-
-        return neededIndex
+        chatMap[modifiedModel.id] = modifiedModel
+        _chatList.value = chatMap.values.toList()
     }
 
     private fun onChatRemoved(chatPreview: ChatModel) {
-        chatList.removeAll { it.id == chatPreview.id }
-        mutableUpdateLiveData.notificate()
+        chatMap.remove(chatPreview.id)
+        _chatList.value = chatMap.values.toList()
     }
 }
