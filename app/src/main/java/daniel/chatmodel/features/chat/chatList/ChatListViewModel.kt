@@ -35,6 +35,6 @@ class ChatListViewModel : ViewModel() {
     }
 
     override fun onCleared() {
-        //todo clear repository
+        chatListRepository.onCleared()
     }
 }

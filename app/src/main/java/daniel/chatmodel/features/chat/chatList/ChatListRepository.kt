@@ -19,6 +19,7 @@ private const val TAG = "ChatListRepository"
 class ChatListRepository {
     private val chatMap: MutableMap<String, ChatPreviewModel> = mutableMapOf()
     private val listenerMap: MutableMap<String, MutableList<ListenerRegistration>> = mutableMapOf()
+    private var mainListener: ListenerRegistration? = null
 
     private val database = Firebase.firestore
     private var onChatListUpdate: () -> Unit = { }
@@ -26,19 +27,12 @@ class ChatListRepository {
     fun loadChatList(): Flow<State<List<ChatPreviewModel>>> = callbackFlow {
         onChatListUpdate = { this.trySend(Success(chatMap.values.toList())) }
 
-        val listener = database.collection(CHATS)
+        mainListener = database.collection(CHATS)
             .handleUpdates(::onChatUpdate, ::onChatUpdateFailed)
 
         awaitClose {
             Log.d(TAG, "awaitClose: removing all listeners")
-
-            listenerMap.values.forEach {
-                it.forEach { registration ->
-                    registration.remove()
-                }
-            }
-
-            listener.remove()
+            onCleared()
         }
     }
 
@@ -112,5 +106,20 @@ class ChatListRepository {
 
     private fun onChatUpdateFailed(exception: FirebaseFirestoreException) = Unit
 
+    fun onCleared(){
+        mainListener?.let {
+            it.remove()
+            Log.d(TAG, "onCleared: removed main listener")
+        }
+
+        var listenerCount = 0
+        listenerMap.values.forEach {
+            it.forEach { registration ->
+                registration.remove()
+                ++listenerCount
+            }
+        }
+        Log.d(TAG, "onCleared: removed $listenerCount listeners")
+    }
 }
 
