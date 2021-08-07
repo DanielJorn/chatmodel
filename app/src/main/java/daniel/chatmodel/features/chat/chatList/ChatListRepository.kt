@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import daniel.chatmodel.base.Failure
 import daniel.chatmodel.base.Loading
 import daniel.chatmodel.base.State
 import daniel.chatmodel.base.Success
@@ -46,7 +47,7 @@ class ChatListRepository {
         onUpdate(Success(uiChatList))
     }
 
-    private fun handleError(exception: Exception) = Unit
+    private fun handleError(exception: Exception) = onUpdate(Failure(exception))
 
     fun onCleared() {
         mainListener?.let {
