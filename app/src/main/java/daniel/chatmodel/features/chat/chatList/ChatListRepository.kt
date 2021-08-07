@@ -11,7 +11,7 @@ import daniel.chatmodel.base.Success
 import daniel.chatmodel.base.firestore.CHATS
 import daniel.chatmodel.base.firestore.handleUpdates
 import daniel.chatmodel.features.chat.ChatModel
-import kotlinx.coroutines.channels.ProducerScope
+import daniel.chatmodel.features.chat.MessageModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -21,6 +21,9 @@ private const val TAG = "ChatListRepository"
 class ChatListRepository {
     private val db = Firebase.firestore
     private var mainListener: ListenerRegistration? = null
+    private val listenerMap: MutableMap<String, ListenerRegistration> = mutableMapOf()
+
+    private val chatMap: MutableMap<String, ChatPreviewModel> = mutableMapOf()
 
     private var onUpdate: (State<List<ChatPreviewModel>>) -> Unit = { }
 
@@ -35,16 +38,70 @@ class ChatListRepository {
         mainListener = listener
 
         awaitClose {
-            listener.remove()
-            Log.d(TAG, "loadChatList: removed chat listener")
+            onCleared()
         }
     }
 
-    private fun handleNewChatList(snapshot: QuerySnapshot) {
-        val dbChatList = snapshot.toObjects(ChatModel::class.java)
-        val uiChatList = dbChatList.map { ChatPreviewModel(it.id, it.title) }
+    private fun handleNewChatList(snapshot: QuerySnapshot?) {
+        val dbChatList = snapshot!!.toObjects(ChatModel::class.java)
+        dbChatList.forEach {
+            it?.let {
+                addLastMessageListener(it)
+                addChatWithoutLastMessage(it)
+            }
+        }
+    }
 
-        onUpdate(Success(uiChatList))
+    private fun addLastMessageListener(chatModel: ChatModel) {
+        val lastMessageListener = listenerMap[chatModel.id]
+        val noLastMessageListenerAttached = lastMessageListener == null
+
+        if (noLastMessageListenerAttached) {
+            val listener = db.collection(CHATS)
+                .document(chatModel.id)
+                .collection("messages")
+                .orderBy("sent", Query.Direction.DESCENDING)
+                .limit(1)
+                .handleUpdates(
+                    onSuccess = { handleLastMessage(it, chatModel) },
+                    onFailure = { onUpdate(Failure(it)) },
+                    allowNullSnapshot = true
+                )
+
+            listenerMap[chatModel.id] = listener
+        }
+    }
+
+    private fun handleLastMessage(snapshot: QuerySnapshot?, chatModel: ChatModel) {
+        if (snapshot == null) {
+            addChatWithoutLastMessage(chatModel)
+            return
+        }
+
+        if (snapshot.size() == 0) {
+            addChatWithoutLastMessage(chatModel)
+            return
+        }
+
+        val lastMessageDocument = snapshot.documents[0]
+        val lastMessage = lastMessageDocument.toObject(MessageModel::class.java)
+        if (lastMessage == null) {
+            addChatWithoutLastMessage(chatModel)
+            return
+        }
+
+        val uiChat = ChatPreviewModel(chatModel.id, chatModel.title, lastMessage.text)
+        addChat(uiChat)
+    }
+
+    private fun addChat(uiChat: ChatPreviewModel) {
+        chatMap[uiChat.id] = uiChat
+        onUpdate(Success(chatMap.values.toList()))
+    }
+
+    private fun addChatWithoutLastMessage(chatModel: ChatModel) {
+        val uiChat = ChatPreviewModel(chatModel.id, chatModel.title, "")
+        addChat(uiChat)
     }
 
     private fun handleError(exception: Exception) = onUpdate(Failure(exception))
@@ -54,6 +111,13 @@ class ChatListRepository {
             it.remove()
             Log.d(TAG, "onCleared: removed main listener")
         }
+
+        val listenerToRemove = listenerMap.values.count()
+        listenerMap.values.forEach {
+            it.remove()
+        }
+
+        Log.d(TAG, "onCleared: removed $listenerToRemove listeners")
     }
 }
 

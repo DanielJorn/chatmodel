@@ -5,11 +5,14 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 
-fun Query.handleUpdates(onSuccess: (QuerySnapshot) -> Unit, onFailure: (Exception) -> Unit): ListenerRegistration {
+fun Query.handleUpdates(onSuccess: (QuerySnapshot?) -> Unit, onFailure: (Exception) -> Unit, allowNullSnapshot: Boolean = false): ListenerRegistration {
     return addSnapshotListener { snapshot, e ->
+        val errorOccurred =  e != null
+        val snapshotNull = snapshot == null
+
         when {
-            e != null -> onFailure(e)
-            snapshot == null -> onFailure(Exception())
+            errorOccurred -> onFailure(e!!)
+            snapshotNull && !allowNullSnapshot -> onFailure(Exception())
             else -> onSuccess(snapshot)
         }
     }
