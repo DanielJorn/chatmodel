@@ -2,13 +2,19 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable
-            name="exampleInject1"
-            type="daniel.chatmodel.upcoming.dagger.ExampleInject" />
+
+        <import type="android.widget.Toast" />
+        <import type="androidx.navigation.Navigation" />
+        <import type="android.view.View" />
+        <import type="daniel.chatmodel.R" />
 
         <variable
-            name="exampleInject2"
-            type="daniel.chatmodel.upcoming.dagger.ExampleInject" />
+            name="scoped"
+            type="daniel.chatmodel.upcoming.dagger.ScopedClass" />
+
+        <variable
+            name="notScoped"
+            type="daniel.chatmodel.upcoming.dagger.NotScopedClass" />
     </data>
 
     <LinearLayout
@@ -19,16 +25,22 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text='@{"scoped: " + scoped.count}'
             android:textColor="@color/black"
-            android:text="@{exampleInject1.string}"
             android:textSize="20sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text='@{"notScoped: " + notScoped.count}'
             android:textColor="@color/black"
-            android:text="@{exampleInject2.string}"
             android:textSize="20sp" />
 
+        <Button
+            android:id="@+id/dagger_testBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </layout>

@@ -8,13 +8,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import daniel.chatmodel.R
 import daniel.chatmodel.databinding.FragmentDaggerBinding
+import kotlinx.android.synthetic.main.fragment_dagger.*
+import kotlinx.android.synthetic.main.fragment_dagger.view.*
 import javax.inject.Inject
 import javax.inject.Named
 
 class DaggerFragment: Fragment() {
 
-    @Inject @Named("first") lateinit var exampleInject1: ExampleInject
-    @Inject @Named("second") lateinit var exampleInject2: ExampleInject
+    private lateinit var appComponent: AppComponent
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,10 +25,15 @@ class DaggerFragment: Fragment() {
         val binding: FragmentDaggerBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_dagger, container, false
         )
+        appComponent = DaggerAppComponent.create()
+        binding.root.dagger_testBtn.setOnClickListener {
+            val storage = Storage()
+            appComponent.inject(storage)
 
-        DaggerAppComponent.create().inject(this)
-        binding.exampleInject1 = exampleInject1
-        binding.exampleInject2 = exampleInject2
+            binding.scoped =    storage.scoped
+            binding.notScoped = storage.notScoped
+        }
+
         return binding.root
     }
 }

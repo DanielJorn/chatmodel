@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import daniel.chatmodel.upcoming.dagger.ExampleScope
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
