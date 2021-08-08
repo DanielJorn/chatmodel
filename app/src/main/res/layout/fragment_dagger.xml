@@ -3,19 +3,31 @@
 
     <data>
         <variable
-            name="exampleInject"
+            name="exampleInject1"
+            type="daniel.chatmodel.upcoming.dagger.ExampleInject" />
+
+        <variable
+            name="exampleInject2"
             type="daniel.chatmodel.upcoming.dagger.ExampleInject" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="@{exampleInject.string}"
+            android:text="@{exampleInject1.string}"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@{exampleInject2.string}"
             android:textSize="20sp" />
 
     </LinearLayout>

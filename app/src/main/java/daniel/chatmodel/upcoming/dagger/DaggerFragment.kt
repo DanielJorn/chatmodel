@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment
 import daniel.chatmodel.R
 import daniel.chatmodel.databinding.FragmentDaggerBinding
 import javax.inject.Inject
+import javax.inject.Named
 
 class DaggerFragment: Fragment() {
 
-    @Inject lateinit var exampleInject: ExampleInject
+    @Inject @Named("first") lateinit var exampleInject1: ExampleInject
+    @Inject @Named("second") lateinit var exampleInject2: ExampleInject
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +26,8 @@ class DaggerFragment: Fragment() {
         )
 
         DaggerAppComponent.create().inject(this)
-        binding.exampleInject = exampleInject
+        binding.exampleInject1 = exampleInject1
+        binding.exampleInject2 = exampleInject2
         return binding.root
     }
 }
