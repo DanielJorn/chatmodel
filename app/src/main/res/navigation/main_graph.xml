@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_chatListFragment_to_roomFragment"
             app:destination="@id/roomFragment" />
+        <action
+            android:id="@+id/action_chatListFragment_to_daggerFragment"
+            app:destination="@id/daggerFragment" />
     </fragment>
 
     <fragment
@@ -29,5 +32,11 @@
         android:name="daniel.chatmodel.upcoming.room.RoomFragment"
         android:label="RoomFragment"
         tools:layout="@layout/fragment_room"/>
+
+    <fragment
+        android:id="@+id/daggerFragment"
+        android:name="daniel.chatmodel.upcoming.dagger.DaggerFragment"
+        android:label="DaggerFragment"
+        tools:layout="@layout/fragment_dagger"/>
 
 </navigation>
