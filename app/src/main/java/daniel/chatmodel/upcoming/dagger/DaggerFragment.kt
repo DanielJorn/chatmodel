@@ -8,8 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import daniel.chatmodel.R
 import daniel.chatmodel.databinding.FragmentDaggerBinding
+import javax.inject.Inject
 
 class DaggerFragment: Fragment() {
+
+    @Inject lateinit var exampleInject: ExampleInject
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -19,6 +23,8 @@ class DaggerFragment: Fragment() {
             inflater, R.layout.fragment_dagger, container, false
         )
 
+        DaggerAppComponent.create().inject(this)
+        binding.exampleInject = exampleInject
         return binding.root
     }
 }

@@ -2,7 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <variable
+            name="exampleInject"
+            type="daniel.chatmodel.upcoming.dagger.ExampleInject" />
     </data>
 
     <LinearLayout
@@ -13,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
+            android:text="@{exampleInject.data}"
             android:textSize="20sp" />
 
     </LinearLayout>
