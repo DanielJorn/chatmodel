@@ -22,10 +22,10 @@ class ChatListRepository {
     private var mainListener: ListenerRegistration? = null
 
     private val database = Firebase.firestore
-    private var onChatListUpdate: () -> Unit = { }
+    private var onChatListUpdate: (State<List<ChatPreviewModel>>) -> Unit = { }
 
     fun loadChatList(): Flow<State<List<ChatPreviewModel>>> = callbackFlow {
-        onChatListUpdate = { this.trySend(Success(chatMap.values.toList())) }
+        onChatListUpdate = { this.trySend(it) }
 
         mainListener = database.collection(CHATS)
             .handleUpdates(::onChatUpdate, ::onChatUpdateFailed)
@@ -67,10 +67,7 @@ class ChatListRepository {
         listenerMap[chatModel.id]!!.add(listener)
     }
 
-    private fun onLastMessageLoaded(
-        snapshot: QuerySnapshot,
-        chatModel: ChatModel
-    ) {
+    private fun onLastMessageLoaded(snapshot: QuerySnapshot, chatModel: ChatModel) {
         if (snapshot.size() == 0) return
 
         val lastMessageDocument = snapshot.documents[0]
@@ -79,7 +76,7 @@ class ChatListRepository {
         val uiChat = ChatPreviewModel(chatModel.id, chatModel.title, lastMessage.text)
 
         chatMap[uiChat.id] = uiChat
-        onChatListUpdate()
+        onChatListUpdate(Success(chatMap.values.toList()))
     }
 
     private fun onChatModified(modifiedModel: ChatModel) {
@@ -91,7 +88,7 @@ class ChatListRepository {
         )
 
         chatMap[modifiedModel.id] = uiChat
-        onChatListUpdate()
+        onChatListUpdate(Success(chatMap.values.toList()))
     }
 
     private fun onChatRemoved(chatPreview: ChatModel) {
@@ -101,7 +98,7 @@ class ChatListRepository {
         listenerMap[chatPreview.id]?.forEach {
             it.remove()
         }
-        onChatListUpdate()
+        onChatListUpdate(Success(chatMap.values.toList()))
     }
 
     private fun onChatUpdateFailed(exception: FirebaseFirestoreException) = Unit
