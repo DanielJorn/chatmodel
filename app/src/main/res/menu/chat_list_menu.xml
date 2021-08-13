@@ -9,4 +9,8 @@
         android:id="@+id/daggerFragment"
         android:title="Dagger Fragment" />
 
+    <item
+        android:id="@+id/hiltFragment"
+        android:title="Hilt Fragment" />
+
 </menu>
