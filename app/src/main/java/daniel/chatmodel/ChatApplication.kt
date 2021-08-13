@@ -3,14 +3,12 @@ package daniel.chatmodel
 import android.app.Application
 import androidx.room.Room
 import com.google.firebase.FirebaseApp
+import daniel.chatmodel.upcoming.dagger.AppComponent
+import daniel.chatmodel.upcoming.dagger.DaggerAppComponent
 import daniel.chatmodel.upcoming.room.AppDatabase
 
 class ChatApplication : Application(){
-    //todo I provide public access to AppDatabase through static instance of Application class
-    // clunky, but i didn't do any further research
-    companion object {
-        lateinit var instance: ChatApplication
-    }
+    val appComponent = DaggerAppComponent.create()
 
     lateinit var database: AppDatabase
     private set
@@ -21,5 +19,10 @@ class ChatApplication : Application(){
         instance = this
         database = Room.databaseBuilder(this, AppDatabase::class.java, "database")
             .build()
+    }
+
+    companion object {
+        lateinit var instance: ChatApplication
+            private set
     }
 }
