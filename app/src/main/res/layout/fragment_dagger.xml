@@ -18,7 +18,7 @@
             android:padding="5dp"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:text="@{viewModel.text}"/>
+            android:text="@{viewModel.users[0]}"/>
 
         <Button
             android:id="@+id/dagger_testBtn"

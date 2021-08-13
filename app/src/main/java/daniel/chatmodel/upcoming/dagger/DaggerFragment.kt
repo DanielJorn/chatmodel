@@ -10,10 +10,7 @@ import androidx.fragment.app.Fragment
 import daniel.chatmodel.ChatApplication
 import daniel.chatmodel.R
 import daniel.chatmodel.databinding.FragmentDaggerBinding
-import kotlinx.android.synthetic.main.fragment_dagger.*
-import kotlinx.android.synthetic.main.fragment_dagger.view.*
 import javax.inject.Inject
-import javax.inject.Named
 
 class DaggerFragment : Fragment() {
 
@@ -25,16 +22,11 @@ class DaggerFragment : Fragment() {
         super.onAttach(context)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val binding: FragmentDaggerBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_dagger, container, false
-        )
-        binding.viewModel = viewModel
+    override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, bundle: Bundle?): View {
+        val binding: FragmentDaggerBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_dagger, parent, false)
 
+        binding.viewModel = viewModel
         return binding.root
     }
 }
