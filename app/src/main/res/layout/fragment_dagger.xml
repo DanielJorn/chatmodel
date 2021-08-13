@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-
-        <import type="android.widget.Toast" />
-        <import type="androidx.navigation.Navigation" />
-        <import type="android.view.View" />
-        <import type="daniel.chatmodel.R" />
-
-        <variable
-            name="scoped"
-            type="daniel.chatmodel.upcoming.dagger.ScopedClass" />
-
-        <variable
-            name="notScoped"
-            type="daniel.chatmodel.upcoming.dagger.NotScopedClass" />
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,7 +10,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text='@{"scoped: " + scoped.count}'
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -34,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text='@{"notScoped: " + notScoped.count}'
             android:textColor="@color/black"
             android:textSize="20sp" />
 

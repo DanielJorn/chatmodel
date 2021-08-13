@@ -15,7 +15,6 @@ import javax.inject.Named
 
 class DaggerFragment: Fragment() {
 
-    private lateinit var appComponent: AppComponent
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,14 +24,6 @@ class DaggerFragment: Fragment() {
         val binding: FragmentDaggerBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_dagger, container, false
         )
-        appComponent = DaggerAppComponent.create()
-        binding.root.dagger_testBtn.setOnClickListener {
-            val storage = Storage()
-            appComponent.inject(storage)
-
-            binding.scoped =    storage.scoped
-            binding.notScoped = storage.notScoped
-        }
 
         return binding.root
     }
