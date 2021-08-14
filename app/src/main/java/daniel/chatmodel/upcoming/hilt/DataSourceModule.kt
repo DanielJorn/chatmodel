@@ -1,17 +1,17 @@
-package daniel.chatmodel.upcoming.dagger
+package daniel.chatmodel.upcoming.hilt
 
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.migration.DisableInstallInCheck
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
 import retrofit2.Retrofit
 
 @Module
-@DisableInstallInCheck
-interface UserRepositoryModule {
-
+@InstallIn(FragmentComponent ::class)
+interface DataSourceModule {
     @Binds
-    fun userRepository(stubUserRepository: StubUserRepository): DaggerUserRepository
+    fun dataSource(stubDataSource: StubDataSource): HiltDataSource
 
     companion object {
         @Provides
