@@ -11,6 +11,7 @@ import android.widget.Toast.LENGTH_SHORT
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 import daniel.chatmodel.R
 import daniel.chatmodel.base.Failure
 import daniel.chatmodel.base.Loading
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_chat_list.*
 
 private const val TAG = "ChatListFragment"
 
+@AndroidEntryPoint
 class ChatListFragment : Fragment() {
     private val viewModel: ChatListViewModel by viewModels()
     private val adapter: ChatListAdapter by lazy { ChatListAdapter() }

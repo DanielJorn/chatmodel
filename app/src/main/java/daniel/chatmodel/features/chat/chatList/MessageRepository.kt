@@ -21,56 +21,6 @@ import java.lang.Exception
 
 private const val TAG = "MessageRepository"
 
-class MessageRepository {
-    private val database = Firebase.firestore
-    private val listenerMap: MutableMap<String, ListenerRegistration> = mutableMapOf()
-
-    fun listenLastMessage(chatId: String): Flow<State<MessageModel>> {
-        return callbackFlow {
-            val query = lastMessageQuery(chatId)
-            val listener = query.addSnapshotListener { snap, err ->
-                handleMessageUpdates(snap, err)
-            }
-            listenerMap[chatId] = listener
-
-            awaitClose {
-                stopListenLastMessage(chatId)
-            }
-        }
-    }
-
-    private fun stopListenLastMessage(chatId: String){
-        listenerMap[chatId]?.remove()
-        listenerMap.remove(chatId)
-    }
-
-    private fun lastMessageQuery(chatId: String): Query {
-        return database
-            .collection(CHATS)
-            .document(chatId)
-            .collection(MESSAGES)
-            .orderBy(SENT, Query.Direction.DESCENDING)
-            .limit(1)
-    }
-
-    private fun ProducerScope<State<MessageModel>>.handleMessageUpdates(
-        snap: QuerySnapshot?,
-        err: FirebaseFirestoreException?
-    ) {
-        if (err != null) trySend(Failure(err))
-        val noMessagesSent = snap == null
-        if (noMessagesSent) {
-            trySend(Success(MessageModel()))
-            return
-        }
-        val messages = snap!!.toObjects(MessageModel::class.java)
-        val lastMessage = messages.getOrNull(0)
-        if (lastMessage == null) {
-            trySend(Success(MessageModel()))
-            return
-        }
-
-        trySend(Success(lastMessage))
-    }
-
+interface MessageRepository {
+    fun listenLastMessage(chatId: String): Flow<State<MessageModel>>
 }
