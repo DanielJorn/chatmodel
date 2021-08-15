@@ -25,11 +25,8 @@ class FirebaseMessageRepository @Inject constructor() : MessageRepository {
 
     override fun listenLastMessage(chatId: String): Flow<State<MessageModel>> {
         return callbackFlow {
-            val query = lastMessageQuery(chatId)
-            val listener = query.addSnapshotListener { snap, err ->
-                handleMessageUpdates(snap, err)
-            }
-            listenerMap[chatId] = listener
+            val listener = listenForUpdates(chatId)
+            addListener(chatId, listener)
 
             awaitClose {
                 stopListenLastMessage(chatId)
@@ -37,9 +34,9 @@ class FirebaseMessageRepository @Inject constructor() : MessageRepository {
         }
     }
 
-    private fun stopListenLastMessage(chatId: String) {
-        listenerMap[chatId]?.remove()
-        listenerMap.remove(chatId)
+    private fun ProducerScope<State<MessageModel>>.listenForUpdates(chatId: String): ListenerRegistration {
+        val query = lastMessageQuery(chatId)
+        return query.addSnapshotListener { snap, err -> handleMessageUpdates(snap, err) }
     }
 
     private fun lastMessageQuery(chatId: String): Query {
@@ -69,5 +66,14 @@ class FirebaseMessageRepository @Inject constructor() : MessageRepository {
         }
 
         trySend(Success(lastMessage))
+    }
+
+    private fun stopListenLastMessage(chatId: String) {
+        listenerMap[chatId]?.remove()
+        listenerMap.remove(chatId)
+    }
+
+    private fun addListener(chatId: String, listener: ListenerRegistration) {
+        listenerMap[chatId] = listener
     }
 }
