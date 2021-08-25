@@ -10,6 +10,7 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import daniel.chatmodel.R
@@ -44,9 +45,7 @@ class ChatListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         chatList_chats_recyclerView.adapter = adapter
-        adapter.onItemClick = {
-            Log.d(TAG, "setupRecyclerView: $it")
-        }
+        adapter.onItemClick = { findNavController().navigate(R.id.chatRoomFragment) }
 
         val itemDecor = DividerItemDecoration(context, ClipDrawable.HORIZONTAL)
         chatList_chats_recyclerView.addItemDecoration(itemDecor)
