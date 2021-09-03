@@ -6,8 +6,9 @@
     <data>
 
         <variable
-            name="chat"
+            name="item"
             type="daniel.chatmodel.features.chat.chatList.ChatPreviewModel" />
+
     </data>
 
 
@@ -42,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="@{chat.chatTitle}"
+                    android:text="@{item.chatTitle}"
                     tools:text="Chat title" />
 
                 <LinearLayout
@@ -63,7 +64,7 @@
                         style="@style/Message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{chat.lastMessageText}"
+                        android:text="@{item.lastMessageText}"
                         tools:text="Some message" />
 
                 </LinearLayout>

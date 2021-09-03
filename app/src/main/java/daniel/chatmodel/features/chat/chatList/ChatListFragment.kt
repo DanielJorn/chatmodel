@@ -17,6 +17,7 @@ import daniel.chatmodel.R
 import daniel.chatmodel.base.Failure
 import daniel.chatmodel.base.Loading
 import daniel.chatmodel.base.Success
+import daniel.chatmodel.base.adapter.ItemListAdapter
 import kotlinx.android.synthetic.main.fragment_chat_list.*
 
 private const val TAG = "ChatListFragment"
@@ -24,11 +25,10 @@ private const val TAG = "ChatListFragment"
 @AndroidEntryPoint
 class ChatListFragment : Fragment() {
     private val viewModel: ChatListViewModel by viewModels()
-    private val adapter: ChatListAdapter by lazy { ChatListAdapter() }
+    private val adapter: ItemListAdapter by lazy { ItemListAdapter() }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? =
         inflater.inflate(R.layout.fragment_chat_list, container, false)
 
@@ -45,7 +45,6 @@ class ChatListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         chatList_chats_recyclerView.adapter = adapter
-        adapter.onItemClick = { findNavController().navigate(R.id.chatRoomFragment) }
 
         val itemDecor = DividerItemDecoration(context, ClipDrawable.HORIZONTAL)
         chatList_chats_recyclerView.addItemDecoration(itemDecor)
