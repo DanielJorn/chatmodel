@@ -1,6 +1,5 @@
 package daniel.chatmodel.base.adapter
 
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil

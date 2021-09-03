@@ -22,8 +22,8 @@ private const val TAG = "ChatListViewModel"
 class ChatListViewModel @Inject constructor(
     private val chatListRepository: ChatListRepository
 ): ViewModel() {
-    private val _chatList = MutableLiveData<State<List<ChatPreviewModel>>>()
-    val chatList: LiveData<State<List<ChatPreviewModel>>> = _chatList
+    private val _chatList = MutableLiveData<List<ChatPreviewModel>>()
+    val chatList: LiveData<List<ChatPreviewModel>> = _chatList
 
     init {
         loadChatList()
@@ -32,7 +32,12 @@ class ChatListViewModel @Inject constructor(
     private fun loadChatList() {
         viewModelScope.launch {
             chatListRepository.loadChatList().collect {
-                _chatList.value = it
+                when (it) {
+                    is Success -> _chatList.value = it.data
+                    else -> {
+                        // i don't know...
+                    }
+                }
             }
         }
     }
