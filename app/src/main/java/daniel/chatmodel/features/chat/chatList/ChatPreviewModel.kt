@@ -6,7 +6,9 @@ import daniel.chatmodel.base.adapter.ItemModel
 data class ChatPreviewModel(
     override val id: String = "",
     val chatTitle: String = "",
-    val lastMessageText: String = ""
+    val chatAvatarUrl: String = "",
+    val lastMessageText: String = "",
+    val onChatClicked: () -> Unit = {  }
 ) : ItemModel {
     override val layoutId = R.layout.item_chat_preview
 }

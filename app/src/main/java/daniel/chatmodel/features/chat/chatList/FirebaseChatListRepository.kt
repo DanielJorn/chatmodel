@@ -90,7 +90,7 @@ class FirebaseChatListRepository @Inject constructor(
         when (messageState) {
             is Success -> {
                 val lastMessage = messageState.data
-                val uiChat = ChatPreviewModel(chatModel.id, chatModel.title, lastMessage.text)
+                val uiChat = ChatPreviewModel(chatModel.id, chatModel.chatTitle, chatModel.chatAvatarUrl, lastMessage.text)
 
                 chatMap[uiChat.id] = uiChat
                 onChatListUpdate(Success(chatMap.values.toList()))
@@ -102,14 +102,14 @@ class FirebaseChatListRepository @Inject constructor(
                 Log.d(TAG, "onLastMessageLoaded: loading")
             }
         }
-
     }
 
     private fun onChatModified(modifiedModel: ChatModel) {
         val chatPreviewBeforeUpdate = chatMap[modifiedModel.id]!!
         val uiChat = ChatPreviewModel(
             modifiedModel.id,
-            modifiedModel.title,
+            modifiedModel.chatTitle,
+            modifiedModel.chatAvatarUrl,
             chatPreviewBeforeUpdate.lastMessageText
         )
 

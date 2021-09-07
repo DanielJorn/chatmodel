@@ -39,7 +39,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="@{chat.title}"
+                        android:text="@{chat.chatTitle}"
                         tools:text="text" />
 
                     <TextView
