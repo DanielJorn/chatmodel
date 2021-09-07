@@ -20,6 +20,14 @@ class ChatListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+        val binding = createBinding(inflater, container)
+        return binding.root
+    }
+
+    private fun createBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentChatListBinding {
         val binding: FragmentChatListBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_chat_list,
@@ -28,7 +36,6 @@ class ChatListFragment : Fragment() {
         )
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
-        return binding.root
+        return binding
     }
 }
