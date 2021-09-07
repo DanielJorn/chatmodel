@@ -1,7 +1,5 @@
 package daniel.chatmodel.upcoming.room
 
-import androidx.room.ColumnInfo
-import androidx.room.ColumnInfo.TEXT
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

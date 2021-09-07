@@ -6,8 +6,8 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 
 fun Query.handleUpdates(onSuccess: (QuerySnapshot) -> Unit, onFailure: (FirebaseFirestoreException) -> Unit): ListenerRegistration {
-    return addSnapshotListener { snapshot, e ->
-        if (e != null) onFailure(e)
+    return addSnapshotListener { snapshot, error ->
+        if (error != null) onFailure(error)
         else onSuccess(snapshot!!)
     }
 }

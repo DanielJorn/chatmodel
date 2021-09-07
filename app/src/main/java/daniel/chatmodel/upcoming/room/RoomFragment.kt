@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import daniel.chatmodel.R
-import daniel.chatmodel.databinding.FragmentChatListBinding
 import daniel.chatmodel.databinding.FragmentRoomBinding
 import kotlinx.android.synthetic.main.fragment_room.*
 
