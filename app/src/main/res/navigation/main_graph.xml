@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_chatListFragment_to_roomFragment"
             app:destination="@id/roomFragment" />
+        <action
+            android:id="@+id/action_chatListFragment_to_hiltFragment"
+            app:destination="@id/hiltFragment" />
     </fragment>
 
     <fragment
@@ -30,4 +33,9 @@
         android:label="RoomFragment"
         tools:layout="@layout/fragment_room"/>
 
+    <fragment
+        android:id="@+id/hiltFragment"
+        android:name="daniel.chatmodel.upcoming.hilt.HiltFragment"
+        android:label="HiltFragment"
+        tools:layout="@layout/fragment_hilt"/>
 </navigation>

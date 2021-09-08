@@ -5,4 +5,8 @@
         android:id="@+id/roomFragment"
         android:title="Room Fragment" />
 
+    <item
+        android:id="@+id/hiltFragment"
+        android:title="Hilt Fragment" />
+
 </menu>

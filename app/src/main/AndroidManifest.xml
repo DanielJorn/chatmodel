@@ -3,6 +3,8 @@
     package="daniel.chatmodel"
     android:name=".ChatModel">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".ChatApplication"
         android:allowBackup="true"

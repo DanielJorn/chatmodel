@@ -1,17 +1,13 @@
 package daniel.chatmodel.upcoming.room
 
-import android.util.Log
-import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import daniel.chatmodel.ChatApplication
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import java.util.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import java.util.*
 
 private const val TAG = "RoomViewModel"
 
