@@ -19,7 +19,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface HiltModule {
+interface RoomFeatureModule {
 
     @Binds
     fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
