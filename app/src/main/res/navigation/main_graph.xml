@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/roomFragment"
-        android:name="daniel.chatmodel.upcoming.room.RoomFragment"
+        android:name="daniel.chatmodel.upcoming.room.presentation.RoomFragment"
         android:label="RoomFragment"
         tools:layout="@layout/fragment_room"/>
 

@@ -2,10 +2,9 @@
 <layout>
 
     <data>
-
         <variable
             name="viewModel"
-            type="daniel.chatmodel.upcoming.room.RoomViewModel" />
+            type="daniel.chatmodel.upcoming.room.presentation.RoomViewModel" />
     </data>
 
 
@@ -29,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="name"
-                android:text="@={viewModel.userName}" />
+                android:text="@={viewModel.userNameObservable}" />
 
             <EditText
                 android:id="@+id/room_addUser_surname_edittext"
@@ -37,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="surname"
-                android:text="@={viewModel.userSurname}" />
+                android:text="@={viewModel.userSurnameObservable}" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/room_addUser_confirmBtn"
@@ -46,7 +45,7 @@
                 android:layout_gravity="center"
                 android:onClick="@{() -> viewModel.onConfirmClicked()}"
                 android:padding="5dp"
-                android:src="@color/black" />
+                android:src="@drawable/ic_plus" />
 
         </LinearLayout>
 

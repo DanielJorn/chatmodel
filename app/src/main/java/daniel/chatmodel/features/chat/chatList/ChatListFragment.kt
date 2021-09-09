@@ -11,8 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import daniel.chatmodel.R
 import daniel.chatmodel.databinding.FragmentChatListBinding
 
-private const val TAG = "ChatListFragment"
-
 @AndroidEntryPoint
 class ChatListFragment : Fragment() {
     private val viewModel: ChatListViewModel by viewModels()
