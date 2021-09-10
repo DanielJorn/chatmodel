@@ -34,15 +34,27 @@ class RoomViewModel @Inject constructor(
 
     fun onConfirmClicked() {
         viewModelScope.launch {
-            saveUserUseCase.saveUser(userName, userSurname)
+            when (saveUserUseCase.saveUser(userName, userSurname)) {
+                is SaveUserUseCase.Result.Success -> {
+                    //do smthng
+                }
+                else -> {
+                    //do smthng else
+                }
+            }
         }
     }
 
     private fun loadUserList() {
         viewModelScope.launch {
             getAllUsersUseCase.getAllUsers().collect {
-                if (it is GetAllUsersUseCase.Result.Success) {
-                    _userList.value = it.users
+                when (it) {
+                    is GetAllUsersUseCase.Result.Success -> {
+                        _userList.value = it.users
+                    }
+                    else -> {
+                        //do smthng
+                    }
                 }
             }
         }

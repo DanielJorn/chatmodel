@@ -15,7 +15,12 @@ class SaveUserUseCase @Inject constructor(
         data class Failure(val exception: Exception) : Result
     }
 
-    suspend fun saveUser(userName: String, userSurname: String) {
-        userRepository.saveUser(userName, userSurname)
+    suspend fun saveUser(userName: String, userSurname: String) : Result {
+        return try {
+            userRepository.saveUser(userName, userSurname)
+            Result.Success
+        } catch (e: Exception) {
+            Result.Failure(e)
+        }
     }
 }
