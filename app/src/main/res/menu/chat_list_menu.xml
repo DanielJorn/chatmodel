@@ -8,5 +8,8 @@
     <item
         android:id="@+id/hiltFragment"
         android:title="Hilt Fragment" />
+    <item
+        android:id="@+id/pagingFragment"
+        android:title="Paging Fragment" />
 
 </menu>

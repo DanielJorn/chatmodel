@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        app:layout_constraintLeft_toLeftOf="@+id/pagingUserName"
+        app:layout_constraintRight_toRightOf="@id/pagingUserName"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/gray"
+        />
+    <TextView
+        android:id="@+id/pagingUserName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@id/pagingUserSurname"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        tools:text="name" />
+
+    <TextView
+        android:id="@+id/pagingUserSurname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pagingUserName"
+        tools:text="surname" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
