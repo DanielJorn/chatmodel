@@ -5,11 +5,8 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import daniel.chatmodel.R
 import kotlinx.android.synthetic.main.fragment_paging.*
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 private const val TAG = "PagingFragment"
 
@@ -21,12 +18,5 @@ class PagingFragment: Fragment(R.layout.fragment_paging) {
         Log.d("TAG", "onViewCreated: sp[dask")
 
         pagingRecyclerView.adapter = pagingAdapter
-
-        lifecycleScope.launch {
-            viewModel.flow.collectLatest {
-                Log.d(TAG, "onViewCreated: $it")
-                pagingAdapter.submitData(it)
-            }
-        }
     }
 }
