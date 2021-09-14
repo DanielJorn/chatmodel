@@ -66,17 +66,16 @@ class RoomViewModel @Inject constructor(
     }
 
     private fun User.toRecyclerItem(): RecyclerItem {
-        return RecyclerItem(this, R.layout.item_room_user, object: UserClickListener {
-            override fun onUserClicked() {
-                Log.d(TAG, "onUserClicked ^_^")
-            }
+        return RecyclerItem(this, R.layout.item_room_user, ClickListener())
+    }
 
-            override fun onIconClicked() {
-                Log.d(TAG, "onIconClicked ^_^")
-            }
-        })
+    private class ClickListener: UserClickListener {
+        override fun onUserClicked() {
+            Log.d(TAG, "onUserClicked ^_^")
+        }
+
+        override fun onIconClicked() {
+            Log.d(TAG, "onIconClicked ^_^")
+        }
     }
 }
-
-
-
