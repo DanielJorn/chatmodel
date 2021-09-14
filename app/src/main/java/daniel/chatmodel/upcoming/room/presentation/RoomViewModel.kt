@@ -1,5 +1,6 @@
 package daniel.chatmodel.upcoming.room.presentation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +10,9 @@ import daniel.chatmodel.R
 import daniel.chatmodel.upcoming.room.domain.usecase.GetAllUsersUseCase
 import daniel.chatmodel.upcoming.room.domain.model.User
 import daniel.chatmodel.upcoming.room.domain.usecase.SaveUserUseCase
+import daniel.chatmodel.upcoming.room.presentation.recycleradapter.Click
 import daniel.chatmodel.upcoming.room.presentation.recycleradapter.RecyclerItem
+import daniel.chatmodel.upcoming.room.presentation.recycleradapter.UserClickListener
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -63,7 +66,15 @@ class RoomViewModel @Inject constructor(
     }
 
     private fun User.toRecyclerItem(): RecyclerItem {
-        return RecyclerItem(this, R.layout.item_room_user)
+        return RecyclerItem(this, R.layout.item_room_user, object: UserClickListener {
+            override fun onUserClicked() {
+                Log.d(TAG, "onUserClicked ^_^")
+            }
+
+            override fun onIconClicked() {
+                Log.d(TAG, "onIconClicked ^_^")
+            }
+        })
     }
 }
 

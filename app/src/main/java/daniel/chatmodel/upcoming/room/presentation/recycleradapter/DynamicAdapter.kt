@@ -27,6 +27,7 @@ class DynamicAdapter @Inject constructor() :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(recyclerItem: RecyclerItem) {
             binding.setVariable(BR.item, recyclerItem.data)
+            binding.setVariable(BR.clickListener, recyclerItem.clickListener)
         }
     }
 
