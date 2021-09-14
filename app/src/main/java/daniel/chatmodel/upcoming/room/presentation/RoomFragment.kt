@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import daniel.chatmodel.R
 import daniel.chatmodel.databinding.FragmentRoomBinding
+import daniel.chatmodel.upcoming.room.presentation.recycleradapter.DynamicAdapter
 import kotlinx.android.synthetic.main.fragment_room.*
 import javax.inject.Inject
 
@@ -18,7 +19,7 @@ class RoomFragment: Fragment() {
     private val viewModel : RoomViewModel by viewModels()
 
     @Inject
-    lateinit var adapter: RoomUserAdapter
+    lateinit var adapter: DynamicAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,

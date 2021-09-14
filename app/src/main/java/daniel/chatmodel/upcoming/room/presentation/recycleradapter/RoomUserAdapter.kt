@@ -1,4 +1,4 @@
-package daniel.chatmodel.upcoming.room.presentation
+package daniel.chatmodel.upcoming.room.presentation.recycleradapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -25,7 +25,6 @@ class RoomUserAdapter @Inject constructor() :
     class ItemViewHolder(private val binding: ItemRoomUserBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
-            binding.user = user
         }
     }
 }

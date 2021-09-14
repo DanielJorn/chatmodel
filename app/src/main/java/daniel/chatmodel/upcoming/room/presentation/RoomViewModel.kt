@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import daniel.chatmodel.R
 import daniel.chatmodel.upcoming.room.domain.usecase.GetAllUsersUseCase
 import daniel.chatmodel.upcoming.room.domain.model.User
 import daniel.chatmodel.upcoming.room.domain.usecase.SaveUserUseCase
+import daniel.chatmodel.upcoming.room.presentation.recycleradapter.RecyclerItem
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,8 +27,8 @@ class RoomViewModel @Inject constructor(
     private val userName get() = userNameObservable.value ?: ""
     private val userSurname get() = userSurnameObservable.value ?: ""
 
-    private val _userList: MutableLiveData<List<User>> = MutableLiveData(listOf())
-    val userList: LiveData<List<User>> = _userList
+    private val _userList: MutableLiveData<List<RecyclerItem>> = MutableLiveData(listOf())
+    val userList: LiveData<List<RecyclerItem>> = _userList
 
     init {
         loadUserList()
@@ -47,10 +49,10 @@ class RoomViewModel @Inject constructor(
 
     private fun loadUserList() {
         viewModelScope.launch {
-            getAllUsersUseCase.getAllUsers().collect {
-                when (it) {
+            getAllUsersUseCase.getAllUsers().collect { result ->
+                when (result) {
                     is GetAllUsersUseCase.Result.Success -> {
-                        _userList.value = it.users
+                        _userList.value = result.users.map { it.toRecyclerItem() }
                     }
                     else -> {
                         //do smthng
@@ -59,4 +61,11 @@ class RoomViewModel @Inject constructor(
             }
         }
     }
+
+    private fun User.toRecyclerItem(): RecyclerItem {
+        return RecyclerItem(this, R.layout.item_room_user)
+    }
 }
+
+
+

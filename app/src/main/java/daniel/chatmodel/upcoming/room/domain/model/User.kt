@@ -1,7 +1,9 @@
 package daniel.chatmodel.upcoming.room.domain.model
 
+import daniel.chatmodel.upcoming.room.presentation.recycleradapter.DiffComparable
+
 data class User(
-    val id: String,
+    override val id: String,
     val name: String,
     val surname: String
-)
+) : DiffComparable
