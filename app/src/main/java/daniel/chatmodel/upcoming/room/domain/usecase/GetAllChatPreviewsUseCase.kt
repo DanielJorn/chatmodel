@@ -1,13 +1,13 @@
 package daniel.chatmodel.upcoming.room.domain.usecase
 
 import daniel.chatmodel.upcoming.room.domain.model.ChatPreview
-import daniel.chatmodel.upcoming.room.domain.repository.ChatPreviewRepository
+import daniel.chatmodel.upcoming.room.domain.repository.ChatRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetAllChatPreviewsUseCase @Inject constructor(
-    private val chatPreviewRepository: ChatPreviewRepository
+    private val chatRepository: ChatRepository
 ) {
     sealed interface Result {
         data class Success(val chatPreviews: List<ChatPreview>) : Result
@@ -15,6 +15,6 @@ class GetAllChatPreviewsUseCase @Inject constructor(
     }
 
     fun getAllChatPreviews(): Flow<Result> {
-        return chatPreviewRepository.getAllChatPreviews().map { Result.Success(it) }
+        return chatRepository.getAllChatPreviews().map { Result.Success(it) }
     }
 }

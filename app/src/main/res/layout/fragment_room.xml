@@ -23,27 +23,19 @@
             android:padding="10dp">
 
             <EditText
-                android:id="@+id/room_addUser_name_edittext"
-                android:layout_width="match_parent"
+                android:id="@+id/fragmentRoom_chatTitle_edittext"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="name"
-                android:text="@={viewModel.userNameObservable}" />
-
-            <EditText
-                android:id="@+id/room_addUser_surname_edittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="surname"
-                android:text="@={viewModel.userSurnameObservable}" />
+                android:hint="title"
+                android:text="@={viewModel.chatTitleObservable}" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/room_addUser_confirmBtn"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:onClick="@{() -> viewModel.onConfirmClicked()}"
+                android:onClick="@{() -> viewModel.onAddChatClicked()}"
                 android:padding="5dp"
                 android:src="@drawable/ic_plus" />
 
@@ -52,7 +44,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="user list"
+            android:text="chat list"
             android:padding="10dp"
             android:layout_margin="10dp"
             android:textColor="@color/black"
@@ -63,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_room_user" />
+            tools:listitem="@layout/item_room_chat_preview" />
 
 
     </LinearLayout>

@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import daniel.chatmodel.R
 import daniel.chatmodel.upcoming.room.domain.model.ChatPreview
 import daniel.chatmodel.upcoming.room.domain.usecase.GetAllChatPreviewsUseCase
-import daniel.chatmodel.upcoming.room.domain.usecase.SaveUserUseCase
+import daniel.chatmodel.upcoming.room.domain.usecase.SaveChatUseCase
 import daniel.chatmodel.upcoming.room.presentation.recycleradapter.RecyclerItem
 import daniel.chatmodel.upcoming.room.presentation.recycleradapter.RoomChatPreviewClickListener
 import kotlinx.coroutines.flow.collect
@@ -21,30 +21,27 @@ private const val TAG = "RoomViewModel"
 @HiltViewModel
 class RoomViewModel @Inject constructor(
     private val getAllChatPreviewsUseCase: GetAllChatPreviewsUseCase,
-    private val saveUserUseCase: SaveUserUseCase
+    private val saveChatUseCase: SaveChatUseCase
 ) : ViewModel() {
-    val userNameObservable: MutableLiveData<String> = MutableLiveData("")
-    val userSurnameObservable: MutableLiveData<String> = MutableLiveData("")
+    val chatTitleObservable: MutableLiveData<String> = MutableLiveData("")
 
-    private val userName get() = userNameObservable.value ?: ""
-    private val userSurname get() = userSurnameObservable.value ?: ""
+    private val chatTitle get() = chatTitleObservable.value ?: ""
 
     private val _chatPreviewList: MutableLiveData<List<RecyclerItem>> = MutableLiveData(listOf())
     val chatPreviewList: LiveData<List<RecyclerItem>> = _chatPreviewList
 
     init {
-        //leave it for now
-        //loadChatPreviewList()
+        loadChatPreviewList()
     }
 
-    fun onConfirmClicked() {
+    fun onAddChatClicked() {
         viewModelScope.launch {
-            when (saveUserUseCase.saveUser(userName, userSurname)) {
-                is SaveUserUseCase.Result.Success -> {
-                    //do smthng
+            when (val result = saveChatUseCase.saveChat(chatTitle)) {
+                is SaveChatUseCase.Result.Success -> {
+                    Log.d(TAG, "onAddChatClicked: success, $result")
                 }
-                else -> {
-                    //do smthng else
+                is SaveChatUseCase.Result.Failure -> {
+                    Log.e(TAG, "onAddChatClicked: error", result.exception)
                 }
             }
         }

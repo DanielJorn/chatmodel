@@ -1,22 +1,21 @@
 package daniel.chatmodel.upcoming.room
 
 import android.content.Context
-import android.service.autofill.UserData
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import daniel.chatmodel.upcoming.room.data.ChatPreviewRepositoryImpl
+import daniel.chatmodel.upcoming.room.data.ChatRepositoryImpl
 import daniel.chatmodel.upcoming.room.data.UserRepositoryImpl
+import daniel.chatmodel.upcoming.room.data.database.ChatDao
+import daniel.chatmodel.upcoming.room.data.database.ChatDatabase
 import daniel.chatmodel.upcoming.room.data.database.UserDao
 import daniel.chatmodel.upcoming.room.data.database.UserDatabase
-import daniel.chatmodel.upcoming.room.domain.repository.ChatPreviewRepository
+import daniel.chatmodel.upcoming.room.domain.repository.ChatRepository
 import daniel.chatmodel.upcoming.room.domain.repository.UserRepository
-import daniel.chatmodel.upcoming.room.presentation.RoomFragment
 import javax.inject.Singleton
 
 @Module
@@ -27,7 +26,7 @@ interface RoomFeatureModule {
     fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
 
     @Binds
-    fun bindChatPreviewRepository(userRepositoryImpl: ChatPreviewRepositoryImpl): ChatPreviewRepository
+    fun bindChatPreviewRepository(userRepositoryImpl: ChatRepositoryImpl): ChatRepository
 
     companion object {
         @Provides
@@ -42,6 +41,21 @@ interface RoomFeatureModule {
                 appContext,
                 UserDatabase::class.java,
                 "userDatabase"
+            ).build()
+        }
+
+        @Provides
+        fun providesChatDao(chatDatabase: ChatDatabase): ChatDao {
+            return chatDatabase.chatDao()
+        }
+
+        @Provides
+        @Singleton
+        fun providesChatDatabase(@ApplicationContext appContext: Context): ChatDatabase {
+            return Room.databaseBuilder(
+                appContext,
+                ChatDatabase::class.java,
+                "chatDatabase"
             ).build()
         }
     }

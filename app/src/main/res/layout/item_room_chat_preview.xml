@@ -36,6 +36,7 @@
             app:layout_constraintLeft_toRightOf="@id/roomChatPreview_chatImage"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/roomChatPreview_chatImage"
+            android:text="@{item.chatTitle}"
             tools:text="Chat Title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
