@@ -10,7 +10,6 @@ import daniel.chatmodel.R
 import daniel.chatmodel.upcoming.room.domain.usecase.GetAllUsersUseCase
 import daniel.chatmodel.upcoming.room.domain.model.User
 import daniel.chatmodel.upcoming.room.domain.usecase.SaveUserUseCase
-import daniel.chatmodel.upcoming.room.presentation.recycleradapter.Click
 import daniel.chatmodel.upcoming.room.presentation.recycleradapter.RecyclerItem
 import daniel.chatmodel.upcoming.room.presentation.recycleradapter.UserClickListener
 import kotlinx.coroutines.flow.collect
@@ -66,10 +65,10 @@ class RoomViewModel @Inject constructor(
     }
 
     private fun User.toRecyclerItem(): RecyclerItem {
-        return RecyclerItem(this, R.layout.item_room_user, ClickListener())
+        return RecyclerItem(this, R.layout.item_room_user, listener)
     }
 
-    private class ClickListener: UserClickListener {
+    private val listener = object: UserClickListener {
         override fun onUserClicked() {
             Log.d(TAG, "onUserClicked ^_^")
         }
