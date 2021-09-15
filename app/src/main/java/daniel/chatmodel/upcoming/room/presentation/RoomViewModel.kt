@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import daniel.chatmodel.R
-import daniel.chatmodel.upcoming.room.domain.usecase.GetAllUsersUseCase
-import daniel.chatmodel.upcoming.room.domain.model.User
+import daniel.chatmodel.upcoming.room.domain.model.ChatPreview
+import daniel.chatmodel.upcoming.room.domain.usecase.GetAllChatPreviewsUseCase
 import daniel.chatmodel.upcoming.room.domain.usecase.SaveUserUseCase
 import daniel.chatmodel.upcoming.room.presentation.recycleradapter.RecyclerItem
-import daniel.chatmodel.upcoming.room.presentation.recycleradapter.UserClickListener
+import daniel.chatmodel.upcoming.room.presentation.recycleradapter.RoomChatPreviewClickListener
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +20,7 @@ private const val TAG = "RoomViewModel"
 
 @HiltViewModel
 class RoomViewModel @Inject constructor(
-    private val getAllUsersUseCase: GetAllUsersUseCase,
+    private val getAllChatPreviewsUseCase: GetAllChatPreviewsUseCase,
     private val saveUserUseCase: SaveUserUseCase
 ) : ViewModel() {
     val userNameObservable: MutableLiveData<String> = MutableLiveData("")
@@ -29,11 +29,12 @@ class RoomViewModel @Inject constructor(
     private val userName get() = userNameObservable.value ?: ""
     private val userSurname get() = userSurnameObservable.value ?: ""
 
-    private val _userList: MutableLiveData<List<RecyclerItem>> = MutableLiveData(listOf())
-    val userList: LiveData<List<RecyclerItem>> = _userList
+    private val _chatPreviewList: MutableLiveData<List<RecyclerItem>> = MutableLiveData(listOf())
+    val chatPreviewList: LiveData<List<RecyclerItem>> = _chatPreviewList
 
     init {
-        loadUserList()
+        //leave it for now
+        //loadChatPreviewList()
     }
 
     fun onConfirmClicked() {
@@ -49,12 +50,12 @@ class RoomViewModel @Inject constructor(
         }
     }
 
-    private fun loadUserList() {
+    private fun loadChatPreviewList() {
         viewModelScope.launch {
-            getAllUsersUseCase.getAllUsers().collect { result ->
+            getAllChatPreviewsUseCase.getAllChatPreviews().collect { result ->
                 when (result) {
-                    is GetAllUsersUseCase.Result.Success -> {
-                        _userList.value = result.users.map { it.toRecyclerItem() }
+                    is GetAllChatPreviewsUseCase.Result.Success -> {
+                        _chatPreviewList.value = result.chatPreviews.map { it.toRecyclerItem() }
                     }
                     else -> {
                         //do smthng
@@ -64,17 +65,16 @@ class RoomViewModel @Inject constructor(
         }
     }
 
-    private fun User.toRecyclerItem(): RecyclerItem {
-        return RecyclerItem(this, R.layout.item_room_user, listener)
+    private fun onChatPreviewClicked(chatPreview: ChatPreview) {
+        Log.d(TAG, "onChatPreviewClicked =)")
     }
 
-    private val listener = object: UserClickListener {
-        override fun onUserClicked() {
-            Log.d(TAG, "onUserClicked ^_^")
-        }
+    private fun ChatPreview.toRecyclerItem(): RecyclerItem {
+        return RecyclerItem(this, R.layout.item_room_chat_preview, chatPreviewClickListener)
+    }
 
-        override fun onIconClicked() {
-            Log.d(TAG, "onIconClicked ^_^")
-        }
+    private val chatPreviewClickListener = object : RoomChatPreviewClickListener {
+        override fun onChatPreviewClicked(chatPreview: ChatPreview) =
+            this@RoomViewModel.onChatPreviewClicked(chatPreview)
     }
 }

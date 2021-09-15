@@ -36,7 +36,7 @@ class RoomFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         room_users_recyclerView.adapter = adapter
 
-        viewModel.userList.observe(viewLifecycleOwner) {
+        viewModel.chatPreviewList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
     }
