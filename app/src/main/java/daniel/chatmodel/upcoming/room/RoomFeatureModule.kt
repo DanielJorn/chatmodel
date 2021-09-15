@@ -10,9 +10,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import daniel.chatmodel.upcoming.room.data.ChatPreviewRepositoryImpl
 import daniel.chatmodel.upcoming.room.data.UserRepositoryImpl
 import daniel.chatmodel.upcoming.room.data.database.UserDao
 import daniel.chatmodel.upcoming.room.data.database.UserDatabase
+import daniel.chatmodel.upcoming.room.domain.repository.ChatPreviewRepository
 import daniel.chatmodel.upcoming.room.domain.repository.UserRepository
 import daniel.chatmodel.upcoming.room.presentation.RoomFragment
 import javax.inject.Singleton
@@ -23,6 +25,9 @@ interface RoomFeatureModule {
 
     @Binds
     fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
+
+    @Binds
+    fun bindChatPreviewRepository(userRepositoryImpl: ChatPreviewRepositoryImpl): ChatPreviewRepository
 
     companion object {
         @Provides

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout>
-
     <data>
         <variable
             name="item"
@@ -9,15 +8,16 @@
 
         <variable
             name="clickListener"
-            type="" />
+            type="daniel.chatmodel.upcoming.room.presentation.recycleradapter.RoomChatPreviewClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="15dp">
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:onClick="@{() -> clickListener.onChatPreviewClicked(item)}">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/roomChatPreview_chatImage"
